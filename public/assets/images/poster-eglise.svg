@@ -1,0 +1,21 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#05080C"/>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <path d="M760 170L1060 770H460L760 170Z" fill="#101820" fill-opacity=".68" stroke="#D8B76A" stroke-opacity=".22"/>
+  <path d="M300 760C410 650 548 602 697 625C850 649 976 742 1128 725C1262 710 1370 615 1490 595V900H300V760Z" fill="#101820" fill-opacity=".76"/>
+  <circle cx="760" cy="290" r="230" fill="#D8B76A" fill-opacity=".10"/>
+  <rect x="88" y="74" width="1424" height="752" rx="26" stroke="#D8B76A" stroke-opacity=".28"/>
+  <text x="120" y="150" fill="#B7AA8A" font-family="Inter, Arial" font-size="28" font-weight="700" letter-spacing="9">WORK IN PROGRESS</text>
+  <text x="120" y="545" fill="#F8F3E8" font-family="Playfair Display, Georgia" font-size="84" font-weight="700">La faille sous</text>
+  <text x="120" y="635" fill="#D8B76A" font-family="Playfair Display, Georgia" font-size="84" font-weight="700">l'église</text>
+  <text x="122" y="705" fill="#B7AA8A" font-family="Inter, Arial" font-size="28">Deuxième partie · narration en construction · univers IA</text>
+  <circle cx="1370" cy="690" r="52" fill="#D8B76A"/>
+  <path d="M1354 662L1402 690L1354 718V662Z" fill="#05080C"/>
+  <defs>
+    <radialGradient id="g" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(720 290) rotate(90) scale(690 900)">
+      <stop stop-color="#2C3440"/>
+      <stop offset=".52" stop-color="#071015"/>
+      <stop offset="1" stop-color="#05080C"/>
+    </radialGradient>
+  </defs>
+</svg>

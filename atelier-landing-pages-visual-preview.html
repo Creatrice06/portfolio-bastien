@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aperçu visuel landing pages</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #151515;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #f5f5f5;
+      }
+
+      .wrap {
+        width: min(96vw, 1400px);
+        padding: 24px;
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      .frame {
+        background: #0d0d0d;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      }
+
+      .frame img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="meta">
+        <span>Aperçu du visuel inspiré de `landing-pages-deck.pdf`</span>
+        <span>Format 1600 × 900</span>
+      </div>
+      <div class="frame">
+        <img src="./atelier-landing-pages-visual.svg" alt="Visuel landing pages" />
+      </div>
+    </div>
+  </body>
+</html>

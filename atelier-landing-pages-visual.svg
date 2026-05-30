@@ -1,0 +1,64 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="230" y1="74" x2="1312" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F04C17"/>
+      <stop offset="1" stop-color="#D84B1F"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="612" y1="729" x2="1020" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF8A63" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#FFB499" stop-opacity="0.08"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1600" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_0_1"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <rect x="84" y="86" width="1432" height="728" rx="30" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.16)"/>
+  <line x1="84" y1="744.5" x2="1516" y2="744.5" stroke="rgba(255,255,255,0.22)"/>
+
+  <g opacity="0.9">
+    <text x="800" y="146" fill="#FFF3EA" font-family="Arial, Helvetica, sans-serif" font-size="20" letter-spacing="4" text-anchor="middle">
+      ( PROGRAMME DE FORMATION · ATELIER JOURNÉE COMPLÈTE )
+    </text>
+  </g>
+
+  <text x="220" y="345" fill="#FFF3EA" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="152" font-weight="900">
+    landing
+  </text>
+  <text x="220" y="505" fill="#FFF3EA" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="152" font-weight="900">
+    pages.
+  </text>
+
+  <text x="770" y="592" fill="#FFF3EA" font-family="Georgia, Times New Roman, serif" font-size="60" font-style="italic" font-weight="700">
+    (1)
+  </text>
+
+  <g filter="url(#shadow)" opacity="0.45">
+    <ellipse cx="1210" cy="250" rx="210" ry="120" fill="#FF936C"/>
+  </g>
+
+  <path d="M464 900V760C520 720 610 716 682 749C748 779 815 815 894 795C960 778 1006 734 1048 701V900H464Z" fill="url(#wave)"/>
+  <path d="M545 900V790C604 768 665 769 735 796C803 822 858 838 925 824C973 814 1020 789 1076 741V900H545Z" fill="rgba(255,255,255,0.08)"/>
+
+  <text x="88" y="830" fill="#FFF3EA" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="4">
+    DE LA THÉORIE À LA CONVERSION
+  </text>
+
+  <text x="1266" y="830" fill="#FFF3EA" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="4">
+    VISUEL PROMO
+  </text>
+
+  <text x="92" y="870" fill="#FFD2C3" font-family="Arial, Helvetica, sans-serif" font-size="24" letter-spacing="1.5">
+    Une direction créative forte pour présenter un atelier, une offre ou une masterclass autour des landing pages.
+  </text>
+
+  <g>
+    <rect x="1178" y="110" width="240" height="82" rx="41" fill="rgba(255,243,234,0.12)" stroke="rgba(255,243,234,0.28)"/>
+    <text x="1298" y="161" text-anchor="middle" fill="#FFF3EA" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">
+      ROCKET SCHOOL
+    </text>
+  </g>
+</svg>

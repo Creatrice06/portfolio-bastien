@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prospera - Funnel Canvas</title>
+    <style>
+      :root {
+        --bg: #f7f8fb;
+        --ink: #0f172a;
+        --muted: #64748b;
+        --line: #e2e8f0;
+        --soft: #f8fafc;
+        --white: #ffffff;
+        --dark: #111827;
+        --shadow: 0 22px 70px rgba(15, 23, 42, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        background: var(--bg);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      button,
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 18px 28px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: blur(18px);
+      }
+
+      .eyebrow {
+        margin: 0 0 6px;
+        color: #94a3b8;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 26px;
+        line-height: 1.1;
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--soft);
+      }
+
+      .toolbar button {
+        height: 38px;
+        min-width: 66px;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: #475569;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .toolbar button.active {
+        background: var(--ink);
+        color: white;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 390px;
+        gap: 20px;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .canvas-shell {
+        overflow: auto;
+        height: calc(100vh - 132px);
+        min-height: 760px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 32px 32px;
+        box-shadow: 0 24px 90px rgba(15, 23, 42, 0.1);
+      }
+
+      .canvas {
+        position: relative;
+        width: 2300px;
+        height: 1180px;
+        transform-origin: top left;
+      }
+
+      .funnel-label {
+        position: absolute;
+        top: 28px;
+        padding: 10px 16px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.92);
+        color: #475569;
+        font-size: 14px;
+        font-weight: 800;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+      }
+
+      .funnel-label.one {
+        left: 40px;
+      }
+
+      .funnel-label.two {
+        left: 1110px;
+      }
+
+      svg.arrows {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: visible;
+      }
+
+      .card {
+        position: absolute;
+        width: 300px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .card.landing {
+        width: 360px;
+      }
+
+      .card-head {
+        padding: 14px 16px;
+        border-bottom: 1px solid #f1f5f9;
+        background: rgba(248, 250, 252, 0.92);
+        cursor: grab;
+      }
+
+      .card-head:active {
+        cursor: grabbing;
+      }
+
+      .landing .card-head {
+        background: linear-gradient(135deg, #0f172a, #1f2937);
+        color: white;
+      }
+
+      .card-head-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .card-type {
+        display: block;
+        color: #94a3b8;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .landing .card-type {
+        color: rgba(255, 255, 255, 0.58);
+      }
+
+      .card-title {
+        margin: 6px 0 0;
+        font-size: 16px;
+        line-height: 1.22;
+      }
+
+      .landing .card-title {
+        font-size: 18px;
+      }
+
+      .card-body {
+        display: grid;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      label {
+        display: block;
+      }
+
+      label span {
+        display: block;
+        margin-bottom: 5px;
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        border: 1px solid #dbe3ef;
+        border-radius: 8px;
+        outline: none;
+        background: rgba(255, 255, 255, 0.88);
+        color: var(--ink);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      input,
+      select {
+        min-height: 38px;
+        padding: 8px 10px;
+      }
+
+      textarea {
+        min-height: 64px;
+        padding: 9px 10px;
+        resize: vertical;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: #94a3b8;
+        box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.15);
+      }
+
+      .status {
+        width: auto;
+        min-height: 30px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .replace {
+        height: 38px;
+        border: 0;
+        border-radius: 8px;
+        background: var(--ink);
+        color: white;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .replace:hover {
+        background: #1e293b;
+      }
+
+      .sidebar {
+        display: grid;
+        align-content: start;
+        gap: 16px;
+      }
+
+      .zone {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.92);
+        padding: 16px;
+        box-shadow: 0 16px 50px rgba(15, 23, 42, 0.08);
+      }
+
+      .zone-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .zone h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+
+      .zone button {
+        height: 34px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        color: #334155;
+        font-size: 14px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .zone-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .zone textarea {
+        background: rgba(248, 250, 252, 0.9);
+      }
+
+      @media (max-width: 1100px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .canvas-shell {
+          height: 720px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Prospera Studio / Funnel Canvas</p>
+        <h1>Prototype interactif Ads -> Landing Pages</h1>
+      </div>
+      <div class="toolbar" aria-label="Zoom">
+        <button data-zoom="0.68">68%</button>
+        <button data-zoom="0.82" class="active">82%</button>
+        <button data-zoom="1">100%</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="canvas-shell">
+        <div class="canvas" id="canvas">
+          <div class="funnel-label one">Funnel 1 - audit gratuit</div>
+          <div class="funnel-label two">Funnel 2 - strategie digitale</div>
+          <svg class="arrows" id="arrows" width="2300" height="1180">
+            <defs>
+              <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+                <path d="M2,2 L10,6 L2,10 Z" fill="#334155"></path>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+      </section>
+
+      <aside class="sidebar" id="sidebar"></aside>
+    </main>
+
+    <script>
+      const CARD = {
+        ad: { width: 300, height: 360 },
+        landing: { width: 360, height: 410 },
+      };
+
+      const connections = [
+        ["ad-1", "lp-1"],
+        ["ad-2", "lp-1"],
+        ["ad-3", "lp-1"],
+        ["ad-4", "lp-2"],
+        ["ad-5", "lp-2"],
+        ["ad-6", "lp-2"],
+      ];
+
+      const replacementAds = [
+        {
+          name: "Ad video - Alternant vs freelance",
+          angle: "Comparer les fausses economies avec un systeme d'acquisition pilote.",
+          hook: "Un alternant poste. Un freelance produit. Un systeme convertit.",
+          format: "Video - Mercure_META Ads_VID_Alternant-Freelance.mp4",
+          cta: "Comparer ma strategie",
+          kpi: "CTR > 1,3% | Lead qualifie > 38% | CPL < 130 EUR",
+          note: "Bon angle d'objection budget. A tester sur prospects qui hesitent entre internalisation et agence.",
+        },
+        {
+          name: "Ad statique - Reposte en paix",
+          angle: "Pattern interrupt: montrer que reposter sans strategie ne cree pas de conversion.",
+          hook: "Reposte en paix. Il n'a jamais converti.",
+          format: "Statique vertical - Mercure_META Ads_STAT_11.png",
+          cta: "Auditer ma strategie",
+          kpi: "Thumbstop > 38% | CTR > 1,2% | CPC < 1,90 EUR",
+          note: "Challenger creatif fort, mais a utiliser prudemment pour ne pas abaisser la perception premium.",
+        },
+        {
+          name: "Ad video - Conversation telephonique",
+          angle: "Mettre en scene le moment ou le prospect comprend qu'il lui faut un systeme.",
+          hook: "Vous n'avez pas besoin de plus de posts. Vous avez besoin de conversations commerciales.",
+          format: "Video - Mercure_META Ads_VID_Conversation telephonique.mp4",
+          cta: "Declencher plus de demandes",
+          kpi: "VTR 50% > 25% | CTR > 1,4% | CVR LP > 8%",
+          note: "A tester si la video montre clairement la bascule entre contenu et demande qualifiee.",
+        },
+      ];
+
+      const state = {
+        zoom: 0.82,
+        cards: [
+          {
+            id: "ad-1",
+            type: "ad",
+            funnel: "Funnel 1",
+            x: 80,
+            y: 120,
+            data: {
+              name: "Ad statique - Clients, pas contenu",
+              angle: "Positionnement business: Prospera ne vend pas du contenu, mais un systeme qui genere des demandes.",
+              hook: "On pourrait vous faire du contenu. On prefere vous ramener des clients.",
+              format: "Statique vertical - Mercure_META Ads_STAT_12.png",
+              cta: "Audit gratuit",
+              status: "A tester",
+              kpi: "CTR > 1,8% | CVR LP > 9% | CPL qualifie < 110 EUR",
+              note: "Angle prioritaire pour Prospera: simple, oriente resultat, tres differenciant vs agences de contenu. A mettre en tete de funnel froid.",
+            },
+          },
+          {
+            id: "ad-2",
+            type: "ad",
+            funnel: "Funnel 1",
+            x: 410,
+            y: 120,
+            data: {
+              name: "Ad video - Dans le mille",
+              angle: "Precision commerciale: l'audit identifie ce qui bloque vraiment la conversion.",
+              hook: "Vos ads touchent du monde. Mais est-ce qu'elles touchent les bons clients ?",
+              format: "Video - Mercure_META Ads_VID_Dans le mille_V3_AUDIT_Effet Balle (1).mp4",
+              cta: "Demander un audit",
+              status: "En cours",
+              kpi: "Hook rate > 32% | VTR 50% > 24% | CPL qualifie < 120 EUR",
+              note: "Bonne video pour faire comprendre la valeur de l'audit: moins de bruit, plus de precision. A connecter a une LP avec diagnostic en 3 etapes.",
+            },
+          },
+          {
+            id: "ad-3",
+            type: "ad",
+            funnel: "Funnel 1",
+            x: 740,
+            y: 120,
+            data: {
+              name: "Ad video - Temps perdu",
+              angle: "Cout d'opportunite: continuer sans systeme fait perdre du temps, du budget et des prospects.",
+              hook: "Combien de temps vos contenus ont-ils deja coute sans ramener de vrais clients ?",
+              format: "Video - Mercure_META Ads_VID_Temps Perdu.mp4",
+              cta: "Arreter de perdre du temps",
+              status: "Idee",
+              kpi: "Thumbstop > 35% | CTR > 1,4% | Taux formulaire > 7%",
+              note: "Angle de douleur fort, utile pour activer les prospects conscients du probleme. A tester avec un CTA plus direct vers l'audit gratuit.",
+            },
+          },
+          {
+            id: "lp-1",
+            type: "landing",
+            funnel: "Funnel 1",
+            x: 430,
+            y: 560,
+            data: {
+              name: "LP - Audit gratuit Prospera",
+              promise: "Transformer vos contenus et vos ads en demandes qualifiees, pas seulement en vues.",
+              structure: "Hero reprenant l'angle clients, preuve visuelle, symptomes du funnel actuel, methode audit, exemples avant/apres, formulaire de qualification.",
+              cta: "Demander mon audit gratuit",
+              objective: "Reservation d'un audit qualifie avec contexte budget et maturite marketing",
+              link: "https://prospera.studio/audit-gratuit",
+              note: "La LP doit reprendre exactement la promesse leader: pas du contenu, des clients. Eviter de parler trop tot de production video.",
+            },
+          },
+          {
+            id: "ad-4",
+            type: "ad",
+            funnel: "Funnel 2",
+            x: 1180,
+            y: 120,
+            data: {
+              name: "Ad statique - Avant / Apres",
+              angle: "Transformation visible: passer de reseaux qui dorment a un flux de demandes.",
+              hook: "Tes reseaux dorment ? On transforme ta presence digitale en acquisition.",
+              format: "Statique vertical - Mercure_META Ads_STAT_03.png",
+              cta: "Audit gratuit",
+              status: "A tester",
+              kpi: "CTR > 1,6% | Saves > 2,5% | CVR LP > 8%",
+              note: "Tres bon angle visuel pour secteurs restauration, lifestyle et services locaux. Garder la preuve '+15 clients satisfaits' proche du CTA.",
+            },
+          },
+          {
+            id: "ad-5",
+            type: "ad",
+            funnel: "Funnel 2",
+            x: 1510,
+            y: 120,
+            data: {
+              name: "Ad video - Faux experts",
+              angle: "Objection anti-agence: denoncer les prestataires qui vendent de la visibilite sans acquisition.",
+              hook: "Le probleme, ce n'est pas de manquer d'experts. C'est de payer des experts qui ne convertissent rien.",
+              format: "Video - Mercure_META Ads_VID_Faux experts.mp4",
+              cta: "Verifier votre strategie",
+              status: "En cours",
+              kpi: "Comment rate > 1% | CTR > 1,3% | Lead qualifie > 40%",
+              note: "Angle clivant mais utile pour filtrer les prospects deja decus par agences, freelances ou alternants. A utiliser avec un ton premium, pas agressif.",
+            },
+          },
+          {
+            id: "ad-6",
+            type: "ad",
+            funnel: "Funnel 2",
+            x: 1840,
+            y: 120,
+            data: {
+              name: "Ad statique - Prospere",
+              angle: "Offre claire: rendre l'accompagnement Prospera concret, accessible et oriente conversion.",
+              hook: "Prospere: videos pro, strategie qui convertit, audit gratuit.",
+              format: "Statique vertical - Mercure_META Ads_STAT_01.png",
+              cta: "Audit gratuit",
+              status: "Idee",
+              kpi: "CTR > 1,5% | CVR LP > 8% | CPL qualifie < 125 EUR",
+              note: "Meilleur que 'Reposte en paix' pour un set principal client: plus premium, plus clair sur l'offre, moins risque en perception. A utiliser en retargeting chaud.",
+            },
+          },
+          {
+            id: "lp-2",
+            type: "landing",
+            funnel: "Funnel 2",
+            x: 1530,
+            y: 560,
+            data: {
+              name: "LP - Strategie digitale qui convertit",
+              promise: "Remplacer les publications sans effet par une strategie qui attire, rassure et convertit.",
+              structure: "Hero avant/apres, diagnostic des reseaux, erreurs frequentes, offre Prospera 750 EUR/mois, preuves clients, audit gratuit.",
+              cta: "Recevoir mon audit gratuit",
+              objective: "Qualifier les entreprises qui veulent structurer acquisition, contenus et videos",
+              link: "https://prospera.studio/strategie-digitale",
+              note: "Cette LP doit absorber les angles plus douloureux: reseaux dormants, faux experts, contenus inutiles. Montrer rapidement la methode pour rassurer.",
+            },
+          },
+        ],
+        zones: {
+          hypotheses: {
+            title: "Hypotheses a tester",
+            eyebrow: "Validation",
+            items: [
+              "L'angle 'clients, pas contenu' devrait etre le meilleur angle froid car il parle directement au resultat business.",
+              "Les videos devraient mieux qualifier l'intention, les statiques devraient mieux generer le thumbstop et le clic.",
+              "L'angle offre claire 'Prospere' devrait mieux convertir en retargeting que les angles purement provocateurs.",
+            ],
+          },
+          kpis: {
+            title: "KPI a suivre",
+            eyebrow: "Mesure",
+            items: [
+              "Priorite media: thumbstop, hook rate, CTR, CPC, VTR 50%, saves, comments.",
+              "Priorite business: CVR landing, CPL qualifie, taux de formulaire complet, taux de rendez-vous pris, show rate.",
+              "Comparer chaque couple Ad -> LP, surtout 'Clients pas contenu -> Audit gratuit' vs 'Avant/Apres -> Strategie digitale'.",
+            ],
+          },
+          recommendations: {
+            title: "Recommandations strategiques",
+            eyebrow: "Strategie",
+            items: [
+              "Choisir 'On prefere vous ramener des clients' comme angle leader Prospera.",
+              "Garder un mix 3 statiques / 3 videos pour couvrir arret scroll, preuve, objection, offre et intention.",
+              "Ne pas vendre la production video en premier: vendre le systeme d'acquisition, puis expliquer que la video est un levier.",
+              "Garder 'Reposte en paix' en challenger creatif, pas en angle principal, car le ton peut abaisser la perception premium.",
+            ],
+          },
+          actions: {
+            title: "Prochaines actions",
+            eyebrow: "Execution",
+            items: [
+              "Creer deux LP miroir: Audit gratuit et Strategie digitale qui convertit.",
+              "Lancer les 6 ads avec budget egal pendant 5 a 7 jours avant arbitrage.",
+              "Couper les creatives qui font du clic non qualifie, meme si le CTR est bon.",
+              "Dupliquer le gagnant en 3 variantes: hook plus direct, preuve plus forte, CTA plus explicite.",
+            ],
+          },
+        },
+      };
+
+      const canvas = document.getElementById("canvas");
+      const arrows = document.getElementById("arrows");
+      const sidebar = document.getElementById("sidebar");
+      let drag = null;
+
+      function field(label, value, onInput, multiline) {
+        const wrap = document.createElement("label");
+        const span = document.createElement("span");
+        const input = document.createElement(multiline ? "textarea" : "input");
+        span.textContent = label;
+        input.value = value;
+        input.addEventListener("input", () => onInput(input.value));
+        wrap.append(span, input);
+        return wrap;
+      }
+
+      function renderCards() {
+        document.querySelectorAll(".card").forEach((node) => node.remove());
+
+        state.cards.forEach((card) => {
+          const el = document.createElement("article");
+          el.className = `card ${card.type}`;
+          el.dataset.id = card.id;
+          el.style.left = `${card.x}px`;
+          el.style.top = `${card.y}px`;
+
+          const head = document.createElement("div");
+          head.className = "card-head";
+          head.addEventListener("pointerdown", (event) => startDrag(event, card.id));
+
+          const headRow = document.createElement("div");
+          headRow.className = "card-head-row";
+          const titleWrap = document.createElement("div");
+          titleWrap.innerHTML = `<span class="card-type">${card.funnel} / ${card.type === "ad" ? "Ad" : "Landing Page"}</span><h3 class="card-title">${card.data.name}</h3>`;
+          headRow.append(titleWrap);
+
+          if (card.type === "ad") {
+            const status = document.createElement("select");
+            status.className = "status";
+            ["Idee", "A tester", "En cours", "Gagnante", "Pause"].forEach((option) => {
+              const node = document.createElement("option");
+              node.value = option;
+              node.textContent = option;
+              status.append(node);
+            });
+            status.value = card.data.status;
+            status.addEventListener("pointerdown", (event) => event.stopPropagation());
+            status.addEventListener("change", () => {
+              card.data.status = status.value;
+            });
+            headRow.append(status);
+          }
+
+          head.append(headRow);
+
+          const body = document.createElement("div");
+          body.className = "card-body";
+
+          if (card.type === "ad") {
+            body.append(
+              field("Nom de l'ad", card.data.name, (value) => updateCard(card, "name", value)),
+              field("Angle marketing", card.data.angle, (value) => updateCard(card, "angle", value), true),
+              field("Hook", card.data.hook, (value) => updateCard(card, "hook", value), true),
+              field("Format creatif", card.data.format, (value) => updateCard(card, "format", value)),
+            );
+
+            const grid = document.createElement("div");
+            grid.className = "two-col";
+            grid.append(
+              field("CTA", card.data.cta, (value) => updateCard(card, "cta", value)),
+              field("KPI cible", card.data.kpi, (value) => updateCard(card, "kpi", value), true),
+            );
+            body.append(grid, field("Note strategique", card.data.note, (value) => updateCard(card, "note", value), true));
+
+            const replace = document.createElement("button");
+            replace.className = "replace";
+            replace.type = "button";
+            replace.textContent = "Remplacer cette ad";
+            replace.addEventListener("click", () => replaceAd(card));
+            body.append(replace);
+          } else {
+            body.append(
+              field("Nom de la landing page", card.data.name, (value) => updateCard(card, "name", value)),
+              field("Promesse principale", card.data.promise, (value) => updateCard(card, "promise", value), true),
+              field("Structure de la page", card.data.structure, (value) => updateCard(card, "structure", value), true),
+              field("CTA principal", card.data.cta, (value) => updateCard(card, "cta", value)),
+              field("Objectif de conversion", card.data.objective, (value) => updateCard(card, "objective", value), true),
+              field("Lien modifiable", card.data.link, (value) => updateCard(card, "link", value)),
+              field("Note strategique", card.data.note, (value) => updateCard(card, "note", value), true),
+            );
+          }
+
+          el.append(head, body);
+          canvas.append(el);
+        });
+
+        drawArrows();
+      }
+
+      function updateCard(card, key, value) {
+        card.data[key] = value;
+        const el = document.querySelector(`[data-id="${card.id}"] .card-title`);
+        if ((key === "name") && el) el.textContent = value;
+      }
+
+      function replaceAd(card) {
+        const next = replacementAds[Math.floor(Math.random() * replacementAds.length)];
+        card.data = { ...card.data, ...next, status: "A tester" };
+        renderCards();
+      }
+
+      function startDrag(event, id) {
+        const card = state.cards.find((item) => item.id === id);
+        drag = {
+          id,
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          originX: card.x,
+          originY: card.y,
+        };
+        event.currentTarget.setPointerCapture(event.pointerId);
+      }
+
+      canvas.addEventListener("pointermove", (event) => {
+        if (!drag) return;
+        const card = state.cards.find((item) => item.id === drag.id);
+        card.x = Math.max(32, Math.round(drag.originX + (event.clientX - drag.startX) / state.zoom));
+        card.y = Math.max(32, Math.round(drag.originY + (event.clientY - drag.startY) / state.zoom));
+        const el = document.querySelector(`[data-id="${card.id}"]`);
+        el.style.left = `${card.x}px`;
+        el.style.top = `${card.y}px`;
+        drawArrows();
+      });
+
+      canvas.addEventListener("pointerup", () => {
+        drag = null;
+      });
+
+      canvas.addEventListener("pointercancel", () => {
+        drag = null;
+      });
+
+      function drawArrows() {
+        arrows.querySelectorAll("path.connection").forEach((node) => node.remove());
+        const map = new Map(state.cards.map((card) => [card.id, card]));
+
+        connections.forEach(([fromId, toId]) => {
+          const from = map.get(fromId);
+          const to = map.get(toId);
+          if (!from || !to) return;
+
+          const startX = from.x + CARD.ad.width / 2;
+          const startY = from.y + CARD.ad.height;
+          const endX = to.x + CARD.landing.width / 2;
+          const endY = to.y;
+          const midY = startY + Math.max(90, (endY - startY) * 0.52);
+          const d = `M ${startX} ${startY} C ${startX} ${midY}, ${endX} ${midY}, ${endX} ${endY - 10}`;
+
+          const halo = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          halo.setAttribute("class", "connection");
+          halo.setAttribute("d", d);
+          halo.setAttribute("fill", "none");
+          halo.setAttribute("stroke", "rgba(148,163,184,0.35)");
+          halo.setAttribute("stroke-width", "10");
+
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          line.setAttribute("class", "connection");
+          line.setAttribute("d", d);
+          line.setAttribute("fill", "none");
+          line.setAttribute("stroke", "#334155");
+          line.setAttribute("stroke-width", "2");
+          line.setAttribute("stroke-dasharray", "8 8");
+          line.setAttribute("marker-end", "url(#arrow)");
+
+          arrows.append(halo, line);
+        });
+      }
+
+      function renderSidebar() {
+        Object.entries(state.zones).forEach(([key, zone]) => {
+          const section = document.createElement("section");
+          section.className = "zone";
+          const head = document.createElement("div");
+          head.className = "zone-head";
+          head.innerHTML = `<div><p class="eyebrow">${zone.eyebrow}</p><h2>${zone.title}</h2></div>`;
+
+          const add = document.createElement("button");
+          add.type = "button";
+          add.textContent = "Ajouter";
+          add.addEventListener("click", () => {
+            zone.items.push("Nouvelle note strategique a completer.");
+            renderAll();
+          });
+          head.append(add);
+
+          const list = document.createElement("div");
+          list.className = "zone-list";
+          zone.items.forEach((item, index) => {
+            const input = document.createElement("textarea");
+            input.value = item;
+            input.addEventListener("input", () => {
+              zone.items[index] = input.value;
+            });
+            list.append(input);
+          });
+
+          section.append(head, list);
+          sidebar.append(section);
+        });
+      }
+
+      function renderAll() {
+        sidebar.innerHTML = "";
+        renderCards();
+        renderSidebar();
+      }
+
+      document.querySelectorAll("[data-zoom]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.zoom = Number(button.dataset.zoom);
+          canvas.style.transform = `scale(${state.zoom})`;
+          document.querySelectorAll("[data-zoom]").forEach((node) => node.classList.remove("active"));
+          button.classList.add("active");
+        });
+      });
+
+      canvas.style.transform = `scale(${state.zoom})`;
+      renderAll();
+    </script>
+  </body>
+</html>
