@@ -48,20 +48,34 @@ export function CreativeVideoSection({ studio }) {
 }
 
 function VideoHero({ video, onOpen }) {
+  const isPlayable = Boolean(video.src || video.embedUrl);
+  const Wrapper = isPlayable ? "button" : "article";
+
   return (
     <article className="group relative overflow-hidden rounded-lg border border-gold/25 bg-[radial-gradient(circle_at_18%_16%,rgba(216,183,106,.11),transparent_28%),linear-gradient(145deg,rgba(16,24,32,.9),rgba(5,8,12,.98))] p-2.5 shadow-premium transition duration-500 hover:border-gold/45 hover:shadow-gold">
-      <button
+      <Wrapper
         className="focus-ring relative block w-full overflow-hidden rounded-xl bg-black text-left"
-        type="button"
-        onClick={() => onOpen(video)}
+        type={isPlayable ? "button" : undefined}
+        onClick={isPlayable ? () => onOpen(video) : undefined}
         aria-label={`Lire ${video.title}`}
       >
-        <video
-          className="aspect-[21/9] w-full object-cover opacity-75 saturate-[.82] contrast-[.92] transition duration-700 group-hover:scale-[1.012] group-hover:opacity-90"
-          preload="metadata"
-          poster={video.poster}
-          src={video.src}
-        />
+        {video.src ? (
+          <video
+            className="aspect-[21/9] w-full object-cover opacity-75 saturate-[.82] contrast-[.92] transition duration-700 group-hover:scale-[1.012] group-hover:opacity-90"
+            preload="metadata"
+            poster={video.poster}
+            src={video.src}
+          />
+        ) : video.poster ? (
+          <img
+            className="aspect-[21/9] w-full object-cover opacity-75 saturate-[.82] contrast-[.92] transition duration-700 group-hover:scale-[1.012] group-hover:opacity-90"
+            src={video.poster}
+            alt=""
+            loading="lazy"
+          />
+        ) : (
+          <div className="aspect-[21/9] w-full bg-[radial-gradient(circle_at_25%_28%,rgba(216,183,106,.18),transparent_30%),linear-gradient(135deg,#101820,#05080C)]" />
+        )}
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,8,12,.88),rgba(5,8,12,.22)_58%,rgba(5,8,12,.64)),radial-gradient(circle_at_68%_35%,rgba(216,183,106,.16),transparent_24%)]" />
         <div className="cinematic-grain pointer-events-none absolute inset-0" />
         <div className="absolute inset-x-8 top-8 h-px bg-gradient-to-r from-gold/70 to-transparent" />
@@ -78,11 +92,13 @@ function VideoHero({ video, onOpen }) {
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-gold/50 bg-gold text-ink shadow-gold transition group-hover:scale-105">
                 <Play className="ml-1 h-4 w-4 fill-current" aria-hidden="true" />
               </span>
-              <span className="text-xs font-bold uppercase tracking-[0.18em] text-ivory">Voir le film</span>
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-ivory">
+                {isPlayable ? "Voir le film" : "Preview créative"}
+              </span>
             </div>
           </div>
         </div>
-      </button>
+      </Wrapper>
     </article>
   );
 }
@@ -169,6 +185,13 @@ function VideoCard({ video, onOpen }) {
             preload="metadata"
             poster={video.poster}
             src={video.src}
+          />
+        ) : video.poster ? (
+          <img
+            className="aspect-video w-full object-cover opacity-70 saturate-[.82] transition duration-700 group-hover:scale-[1.02] group-hover:opacity-90"
+            src={video.poster}
+            alt=""
+            loading="lazy"
           />
         ) : (
           <div className="aspect-video bg-[radial-gradient(circle_at_30%_20%,rgba(216,183,106,.18),transparent_30%),linear-gradient(135deg,#101820,#05080C)]" />

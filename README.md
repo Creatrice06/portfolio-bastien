@@ -52,7 +52,7 @@ public/
 - Add future screenshots to `public/assets/images`.
 - Add future video exports or preview clips to `public/assets/videos`.
 - VocalDigest slides live in `public/assets/images/vocaldigest`.
-- The `.mov` files in `public/assets/videos` are local symlinks to the originals on the Mac to avoid duplicating several gigabytes.
+- Keep production video files web-compatible and committed, for example `.mp4` files in `public/assets/videos`; avoid local symlinks because hosted builds cannot access Desktop files.
 - PriceLabs case-study PDF lives at `public/assets/pdf/pricelabs-portfolio-analytics.pdf`, with preview image at `public/assets/images/cleangenius/pricelabs-preview.png`.
 - VocalDigest includes a clickable image gallery with lightbox and mobile swipe navigation.
 - Project media is configured in `src/data/portfolio.js` and rendered by `src/components/ProjectCard.jsx`.

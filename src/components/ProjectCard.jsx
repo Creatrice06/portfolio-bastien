@@ -143,15 +143,24 @@ function ProjectMedia({ project }) {
         {project.videos && (
           <div className={`mt-3 grid gap-3 ${project.videos.length > 1 ? "lg:grid-cols-2" : ""}`}>
             {project.videos.map((video) => (
-              <figure key={video.src} className="overflow-hidden rounded-md border border-line/70 bg-black">
-                <video
-                  className="aspect-video w-full object-cover"
-                  controls
-                  playsInline
-                  poster={video.poster}
-                  preload="metadata"
-                  src={video.src}
-                />
+              <figure key={video.src ?? video.poster ?? video.title} className="overflow-hidden rounded-md border border-line/70 bg-black">
+                {video.src ? (
+                  <video
+                    className="aspect-video w-full object-cover"
+                    controls
+                    playsInline
+                    poster={video.poster}
+                    preload="metadata"
+                    src={video.src}
+                  />
+                ) : (
+                  <img
+                    className="aspect-video w-full object-cover"
+                    src={video.poster}
+                    alt=""
+                    loading="lazy"
+                  />
+                )}
                 <figcaption className="flex items-center justify-between gap-3 border-t border-line/70 bg-ink/85 px-4 py-3 text-xs text-muted">
                   <span>{video.title}</span>
                   {video.status && <span className="text-gold">{video.status}</span>}
@@ -382,6 +391,7 @@ function AppShowcaseMedia({ project }) {
           <figure className="mx-auto w-full max-w-[280px]">
             <div className="relative rounded-[2rem] border border-gold/35 bg-black p-2 shadow-[0_24px_90px_rgba(216,183,106,.18)]">
               <div className="absolute left-1/2 top-2 z-10 h-5 w-24 -translate-x-1/2 rounded-full bg-black" />
+            {demo.src ? (
               <video
                 className="aspect-[9/16] w-full rounded-[1.45rem] object-cover"
                 controls
@@ -390,6 +400,14 @@ function AppShowcaseMedia({ project }) {
                 preload="metadata"
                 src={demo.src}
               />
+            ) : (
+              <img
+                className="aspect-[9/16] w-full rounded-[1.45rem] object-cover"
+                src={demo.poster}
+                alt=""
+                loading="lazy"
+              />
+            )}
             </div>
             <figcaption className="mt-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted">
               Format social ads 9:16
