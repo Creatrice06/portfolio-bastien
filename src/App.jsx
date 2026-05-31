@@ -1,6 +1,7 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Button } from "./components/Button";
 import { Card } from "./components/Card";
+import { CaseStudies } from "./components/CaseStudies";
 import { CinematicImage } from "./components/CinematicImage";
 import { CreativeVideoSection } from "./components/CreativeVideoSection";
 import { Divider } from "./components/Divider";
@@ -12,7 +13,17 @@ import { ProjectCard } from "./components/ProjectCard";
 import { SectionContainer } from "./components/SectionContainer";
 import { SkillCard } from "./components/SkillCard";
 import { Tag } from "./components/Tag";
-import { creativeStudio, education, experiences, profileCards, projects, proofSignals, skills, tools } from "./data/portfolio";
+import {
+  caseStudies,
+  creativeStudio,
+  education,
+  experiences,
+  profileCards,
+  projects,
+  proofSignals,
+  skills,
+  tools,
+} from "./data/portfolio";
 
 const cvPath = "/assets/pdf/cv-bastien-ferrari.pdf";
 
@@ -64,6 +75,10 @@ function App() {
             ))}
           </div>
         </SectionContainer>
+
+        <Divider />
+
+        <CaseStudies studies={caseStudies} />
 
         <Divider />
 

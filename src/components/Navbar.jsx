@@ -3,6 +3,7 @@ import { Button } from "./Button";
 const links = [
   ["Profil", "#profil"],
   ["Compétences", "#competences"],
+  ["Cases", "#case-studies"],
   ["Expériences", "#experiences"],
   ["Création", "#creation-ia"],
   ["Projets", "#projets"],

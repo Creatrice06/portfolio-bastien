@@ -40,6 +40,97 @@ export const skills = [
   },
 ];
 
+export const caseStudies = [
+  {
+    title: "Viralize",
+    challenge: "Challenge 1",
+    type: "B2B acquisition system",
+    icon: "target",
+    summary:
+      "Construction d'un système d'acquisition B2B pour une marketplace créateurs ↔ entreprises: ICP, personas, CRM scoré, campagnes outbound et pipeline commercial prêt à scaler.",
+    tags: ["ICP", "Personas", "CRM", "Lead scoring", "Cold outreach", "LinkedIn", "Sales pipeline"],
+    metrics: [
+      { value: "100+", label: "contacts structurés" },
+      { value: "78", label: "villes segmentées" },
+      { value: "2", label: "ICP prioritaires" },
+    ],
+    pipeline: ["ICP definition", "Persona building", "Lead database", "CRM scoring", "Outreach sequences", "Sales pipeline"],
+    sections: {
+      context: [
+        "Marketplace B2B connectant créateurs et organisations ayant besoin de contenus activables.",
+        "Objectif: transformer une opportunité marché en machine de prospection lisible, priorisée et actionnable.",
+      ],
+      problem: [
+        "Cibles trop larges et manque de priorisation commerciale.",
+        "Besoin d'identifier les segments avec signaux d'achat, pouvoir de décision et potentiel de volume.",
+      ],
+      strategy: [
+        "Définir deux ICP à fort potentiel: grandes municipalités de 150k+ habitants et studios de tatouage.",
+        "Créer les personas Claire Dupont et Nina Soze pour adapter messages, objections et déclencheurs d'achat.",
+        "Segmenter le pipeline en hot, warm et cold pour concentrer l'effort commercial sur les comptes les plus probables.",
+      ],
+      execution: [
+        "Base de leads structurée avec 100+ contacts, 78 villes, signaux business et niveau de priorité.",
+        "CRM enrichi avec scoring, segmentation et logique de suivi.",
+        "Séquences email, LinkedIn et follow-ups construites pour tester plusieurs angles d'approche.",
+      ],
+      results: [
+        "Pipeline commercial prêt pour lancement et itération.",
+        "Vision claire des comptes prioritaires et des messages par segment.",
+        "Système reproductible pour augmenter le volume sans perdre la qualité de ciblage.",
+      ],
+      insights: [
+        "La qualité d'un système outbound dépend d'abord de la précision ICP, pas du volume de messages.",
+        "Les signaux d'achat transforment une base froide en pipeline pilotable.",
+      ],
+    },
+  },
+  {
+    title: "Prospera Studio",
+    challenge: "Challenge 2",
+    type: "Full acquisition system",
+    icon: "workflow",
+    summary:
+      "Transformation d'une agence social media en système d'acquisition complet: diagnostic, positionnement, funnels, Meta Ads, landing pages et lecture des insights créatifs.",
+    tags: ["Meta Ads", "Funnels", "Landing pages", "Copywriting", "Creative strategy", "Lead gen", "Optimization"],
+    metrics: [
+      { value: "13", label: "leads qualifiés" },
+      { value: "6", label: "créatives testées" },
+      { value: "2", label: "funnels conçus" },
+    ],
+    pipeline: ["Audit growth", "Offer angle", "Meta Ads structure", "Landing variants", "Lead capture", "Creative insights"],
+    sections: {
+      context: [
+        "Agence créative avec une offre existante mais une infrastructure digitale insuffisante pour générer des leads régulièrement.",
+        "Objectif: créer une machine d'acquisition claire, testable et alignée avec le niveau de maturité du marché.",
+      ],
+      problem: [
+        "Pas de landing page solide, pas d'ads structurées et positionnement trop faible pour déclencher une action.",
+        "Le marché ne réagissait pas seulement au manque de visibilité, mais surtout à la confusion opérationnelle.",
+      ],
+      strategy: [
+        "Construire deux stratégies funnel: volume pour apprendre vite, qualité pour filtrer les prospects à plus forte valeur.",
+        "Développer plusieurs angles créatifs: Chaos, Invisibilité, Frustration, Insight et Structure.",
+        "Aligner chaque publicité avec une landing page cohérente pour réduire la friction entre promesse et conversion.",
+      ],
+      execution: [
+        "Structure Meta Ads avec 6 créatives et 2 ad sets pour comparer angles, audiences et intentions.",
+        "Variantes de landing pages construites autour des messages publicitaires.",
+        "Copywriting orienté douleur, clarté, bénéfice immédiat et passage à l'action.",
+      ],
+      results: [
+        "13 leads qualifiés générés sur une courte campagne test.",
+        "Angle gagnant identifié: Chaos / Confusion / Structure.",
+        "Base stratégique exploitable pour itérer les créatives, filtrer les prospects et améliorer le funnel.",
+      ],
+      insights: [
+        "La confusion est un déclencheur plus fort que l'invisibilité pour une cible déjà consciente de son désordre marketing.",
+        "Une campagne performante ne vend pas seulement une prestation: elle nomme précisément le problème que le prospect ressent déjà.",
+      ],
+    },
+  },
+];
+
 export const experiences = [
   {
     company: "Aura Conciergerie",
