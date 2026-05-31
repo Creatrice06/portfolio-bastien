@@ -62,6 +62,10 @@ function VideoHero({ video, onOpen }) {
         {video.src ? (
           <video
             className="aspect-[21/9] w-full object-cover opacity-75 saturate-[.82] contrast-[.92] transition duration-700 group-hover:scale-[1.012] group-hover:opacity-90"
+            autoPlay
+            loop
+            muted
+            playsInline
             preload="metadata"
             poster={video.poster}
             src={video.src}
@@ -182,6 +186,10 @@ function VideoCard({ video, onOpen }) {
         {video.src ? (
           <video
             className="aspect-video w-full object-cover opacity-70 saturate-[.82] transition duration-700 group-hover:scale-[1.02] group-hover:opacity-90"
+            autoPlay
+            loop
+            muted
+            playsInline
             preload="metadata"
             poster={video.poster}
             src={video.src}
@@ -246,7 +254,9 @@ function VideoModal({ media, onClose }) {
         ) : (
           <video
             className="max-h-[82vh] w-full bg-black object-contain"
+            autoPlay
             controls
+            muted
             playsInline
             preload="metadata"
             poster={media.poster}

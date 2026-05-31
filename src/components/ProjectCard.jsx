@@ -147,7 +147,10 @@ function ProjectMedia({ project }) {
                 {video.src ? (
                   <video
                     className="aspect-video w-full object-cover"
+                    autoPlay
                     controls
+                    loop
+                    muted
                     playsInline
                     poster={video.poster}
                     preload="metadata"
@@ -394,7 +397,10 @@ function AppShowcaseMedia({ project }) {
             {demo.src ? (
               <video
                 className="aspect-[9/16] w-full rounded-[1.45rem] object-cover"
+                autoPlay
                 controls
+                loop
+                muted
                 playsInline
                 poster={demo.poster}
                 preload="metadata"

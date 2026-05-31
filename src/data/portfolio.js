@@ -186,6 +186,7 @@ export const projects = [
     videos: [
       {
         title: "Démo VocalDigest",
+        src: "/assets/videos/vocaldigest-demo.mp4",
         poster: "/assets/images/vocaldigest/slide-1.png",
       },
     ],
@@ -213,10 +214,12 @@ export const projects = [
     videos: [
       {
         title: "Le mystère d'un village qui réapparaît chaque été",
+        src: "/assets/videos/village-reapparait.mp4",
         poster: "/assets/images/poster-village.svg",
       },
       {
         title: "La faille sous l'église",
+        src: "/assets/videos/faille-eglise.mp4",
         poster: "/assets/images/poster-eglise.svg",
         status: "Work in progress",
       },
@@ -348,6 +351,7 @@ export const creativeStudio = {
   heroVideo: {
     title: "Film pirate",
     category: "Cinematic AI short",
+    src: "/assets/videos/pirate.mp4",
     tags: ["AI", "storytelling", "montage", "narrative"],
   },
   youtube: {
@@ -371,15 +375,18 @@ export const creativeStudio = {
   videos: [
     {
       title: "Film pirate",
+      src: "/assets/videos/pirate.mp4",
       tags: ["AI", "storytelling", "montage", "narrative"],
     },
     {
       title: "Le mystère d'un village qui réapparaît chaque été",
+      src: "/assets/videos/village-reapparait.mp4",
       poster: "/assets/images/poster-village.svg",
       tags: ["AI", "storytelling", "narrative", "prototyping"],
     },
     {
       title: "La faille sous l'église",
+      src: "/assets/videos/faille-eglise.mp4",
       poster: "/assets/images/poster-eglise.svg",
       tags: ["AI", "montage", "narrative", "work in progress"],
     },

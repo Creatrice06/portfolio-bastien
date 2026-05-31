@@ -53,6 +53,7 @@ public/
 - Add future video exports or preview clips to `public/assets/videos`.
 - VocalDigest slides live in `public/assets/images/vocaldigest`.
 - Keep production video files web-compatible and committed, for example `.mp4` files in `public/assets/videos`; avoid local symlinks because hosted builds cannot access Desktop files.
+- Current production-safe preview videos are `.mp4` files in `public/assets/videos`.
 - PriceLabs case-study PDF lives at `public/assets/pdf/pricelabs-portfolio-analytics.pdf`, with preview image at `public/assets/images/cleangenius/pricelabs-preview.png`.
 - VocalDigest includes a clickable image gallery with lightbox and mobile swipe navigation.
 - Project media is configured in `src/data/portfolio.js` and rendered by `src/components/ProjectCard.jsx`.
