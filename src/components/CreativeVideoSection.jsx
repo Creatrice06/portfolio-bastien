@@ -48,6 +48,7 @@ export function CreativeVideoSection({ studio }) {
 }
 
 function VideoHero({ video, onOpen }) {
+  const [videoError, setVideoError] = useState(false);
   const isPlayable = Boolean(video.src || video.embedUrl);
   const Wrapper = isPlayable ? "button" : "article";
 
@@ -57,9 +58,10 @@ function VideoHero({ video, onOpen }) {
         className="focus-ring relative block w-full overflow-hidden rounded-xl bg-black text-left"
         type={isPlayable ? "button" : undefined}
         onClick={isPlayable ? () => onOpen(video) : undefined}
+        onPointerEnter={isPlayable ? playMutedPreview : undefined}
         aria-label={`Lire ${video.title}`}
       >
-        {video.src ? (
+        {video.src && !videoError ? (
           <video
             className="aspect-[21/9] w-full object-cover opacity-75 saturate-[.82] contrast-[.92] transition duration-700 group-hover:scale-[1.012] group-hover:opacity-90"
             autoPlay
@@ -67,6 +69,8 @@ function VideoHero({ video, onOpen }) {
             muted
             playsInline
             preload="metadata"
+            onCanPlay={playVideoSafely}
+            onError={() => setVideoError(true)}
             poster={video.poster}
             src={video.src}
           />
@@ -171,6 +175,7 @@ function YouTubeEmbedSection({ youtube }) {
 }
 
 function VideoCard({ video, onOpen }) {
+  const [videoError, setVideoError] = useState(false);
   const isPlayable = Boolean(video.src || video.embedUrl);
   const Wrapper = isPlayable ? "button" : "article";
 
@@ -181,9 +186,10 @@ function VideoCard({ video, onOpen }) {
       }`}
       type={isPlayable ? "button" : undefined}
       onClick={isPlayable ? () => onOpen(video) : undefined}
+      onPointerEnter={isPlayable ? playMutedPreview : undefined}
     >
       <div className="relative overflow-hidden bg-black">
-        {video.src ? (
+        {video.src && !videoError ? (
           <video
             className="aspect-video w-full object-cover opacity-70 saturate-[.82] transition duration-700 group-hover:scale-[1.02] group-hover:opacity-90"
             autoPlay
@@ -191,6 +197,8 @@ function VideoCard({ video, onOpen }) {
             muted
             playsInline
             preload="metadata"
+            onCanPlay={playVideoSafely}
+            onError={() => setVideoError(true)}
             poster={video.poster}
             src={video.src}
           />
@@ -256,6 +264,7 @@ function VideoModal({ media, onClose }) {
             className="max-h-[82vh] w-full bg-black object-contain"
             autoPlay
             controls
+            loop
             muted
             playsInline
             preload="metadata"
@@ -271,4 +280,17 @@ function VideoModal({ media, onClose }) {
   );
 
   return createPortal(content, document.body);
+}
+
+function playVideoSafely(event) {
+  event.currentTarget.play().catch(() => {});
+}
+
+function playMutedPreview(event) {
+  const video = event.currentTarget.querySelector("video");
+
+  if (!video) return;
+
+  video.muted = true;
+  video.play().catch(() => {});
 }
